@@ -1,12 +1,27 @@
 # FindWord
 A simple CLI for finding the translation or meaning of a word.
 
+## Summary
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+
+## Features
+
+| Feature                                  | Progress           |
+|------------------------------------------|--------------------|
+| Get possible definitions for a word      | :heavy_check_mark: |
+| Get a possible definition for a sentence | :x:                |
+
 ## Installation
 Soon.
 
 ## Usage
 
-1. If you want to know the meaning of one or several words, you can use the following command:
+1. Word meaning
+
+    If you want to know the meaning of one or several words, you can use the following command:
 
     ```bash
     findword --words "hope car"
