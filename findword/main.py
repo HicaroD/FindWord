@@ -4,9 +4,9 @@ import asyncio
 
 API_ENDPOINT = "https://api.dictionaryapi.dev/api/v2/entries/en/"
 
+
 class WordNotFound(Exception):
     pass
-
 
 
 class Dictionary:
@@ -17,9 +17,11 @@ class Dictionary:
         request = requests.get(API_ENDPOINT + word)
 
         match request.status_code:
-            case 200: 
+            case 200:
                 word_definitions = request.json()[0]["meanings"][0]["definitions"]
-                parsed_word_definition = [definition["definition"] for definition in word_definitions]
+                parsed_word_definition = [
+                    definition["definition"] for definition in word_definitions
+                ]
                 return parsed_word_definition
 
             case 404:
@@ -31,7 +33,7 @@ class Dictionary:
         if self.words is None:
             # TODO: Report to the user that he should pass at least one word
             return
-        
+
         for word in self.words:
             try:
                 meaning = await self.get_word_meanings(word)
@@ -40,7 +42,6 @@ class Dictionary:
             except (WordNotFound, Exception) as e:
                 print(e)
                 exit(1)
-
 
 
 async def main():
