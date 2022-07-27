@@ -24,8 +24,13 @@ class Word:
         part_of_speech = termcolor.colored(self.part_of_speech, 'green')
         representation = f"{word}, {part_of_speech}\n\n{possible_definitions}:\n"
 
-        for meaning in self.meanings:
-            representation += f"   - {meaning}\n"
+        if len(self.meanings) < 5:
+            for meaning in self.meanings:
+                representation += f"   - {meaning}\n"
+        else:
+            for i in range(5):
+                meaning = self.meanings[i]
+                representation += f"   - {meaning}\n"
 
         return representation
 
