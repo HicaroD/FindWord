@@ -96,3 +96,6 @@ async def main():
 
     dictionary = Dictionary(words)
     await dictionary.display_words()
+
+def _main():
+    asyncio.run(main())
