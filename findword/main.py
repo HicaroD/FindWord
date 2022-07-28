@@ -52,7 +52,8 @@ class Dictionary:
                 word = Word(word, part_of_speech, [definition["definition"] for definition in definitions])
                 return word
             case 404:
-                raise WordNotFound(f"The word '{word}' was not found in the dictionary.")
+                word = termcolor.colored(word, "cyan", attrs=["underline"])
+                raise WordNotFound(f"The word {word} was not found in the dictionary.")
             case _:
                 raise Exception("An unknown error ocurred during the request.")
 
