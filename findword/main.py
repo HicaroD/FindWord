@@ -19,9 +19,11 @@ class Word:
     meanings: Sequence[str]
 
     def __str__(self):
-        word = termcolor.colored(self.word, 'cyan', attrs=["bold"])
-        possible_definitions = termcolor.colored("Possible definitions", attrs=["bold", "underline"])
-        part_of_speech = termcolor.colored(self.part_of_speech, 'green')
+        word = termcolor.colored(self.word, "cyan", attrs=["bold"])
+        possible_definitions = termcolor.colored(
+            "Possible definitions", attrs=["bold", "underline"]
+        )
+        part_of_speech = termcolor.colored(self.part_of_speech, "green")
         representation = f"{word}, {part_of_speech}\n\n{possible_definitions}:\n"
 
         if len(self.meanings) < 5:
@@ -33,6 +35,7 @@ class Word:
                 representation += f"   - {meaning}\n"
 
         return representation
+
 
 class Dictionary:
     def __init__(self, words: Optional[Sequence[str]]) -> None:
@@ -49,7 +52,11 @@ class Dictionary:
                 raw_data = raw_data_request.json()[0]
                 part_of_speech = raw_data["meanings"][0]["partOfSpeech"]
                 definitions = raw_data["meanings"][0]["definitions"]
-                word = Word(word, part_of_speech, [definition["definition"] for definition in definitions])
+                word = Word(
+                    word,
+                    part_of_speech,
+                    [definition["definition"] for definition in definitions],
+                )
                 return word
             case 404:
                 word = termcolor.colored(word, "cyan", attrs=["underline"])
@@ -58,20 +65,25 @@ class Dictionary:
                 raise Exception("An unknown error ocurred during the request.")
 
     async def display_words(self) -> None:
-        for word in self.words:
-            try:
+        try:
+            for word in self.words:
                 word_meaning = await self.get_word_meanings(word)
                 print(word_meaning)
 
-            except (WordNotFound, Exception) as e:
-                print(e)
-                exit(1)
+        except (WordNotFound, Exception) as e:
+            print(e)
+            exit(1)
 
 
 def build_cli() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="A simple CLI for finding the meaning or translation of a word. ")
-    parser.add_argument("--words", help="a list of words separated by spaces. Ex.: python incredible")
+    parser = argparse.ArgumentParser(
+        description="A simple CLI for finding the meaning or translation of a word. "
+    )
+    parser.add_argument(
+        "--words", help="a list of words separated by spaces. Ex.: python incredible"
+    )
     return parser
+
 
 async def main():
     args = build_cli().parse_args()
