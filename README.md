@@ -14,10 +14,7 @@ A simple CLI for finding the meaning of a word.
 | Get possible definitions for a word      | :heavy_check_mark: |
 
 ## Installation
-
-```
-pip install findwords
-```
+Soon.
 
 ## Usage
 
