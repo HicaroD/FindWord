@@ -35,15 +35,18 @@ class Word:
         return representation
 
 class Dictionary:
-    def __init__(self, words: Optional[Sequence]) -> None:
+    def __init__(self, words: Optional[Sequence[str]]) -> None:
         self.words: Optional[Sequence] = words
 
-    async def get_word_meanings(self, word: str) -> Word:
-        request = requests.get(API_ENDPOINT + word)
+    async def get_word_raw_data(self, word: str) -> requests.Response:
+        return requests.get(API_ENDPOINT + word)
 
-        match request.status_code:
+    async def get_word_meanings(self, word: str) -> Word:
+        raw_data_request = await self.get_word_raw_data(word)
+
+        match raw_data_request.status_code:
             case 200:
-                raw_data = request.json()[0]
+                raw_data = raw_data_request.json()[0]
                 part_of_speech = raw_data["meanings"][0]["partOfSpeech"]
                 definitions = raw_data["meanings"][0]["definitions"]
                 word = Word(word, part_of_speech, [definition["definition"] for definition in definitions])
@@ -66,11 +69,16 @@ class Dictionary:
 
 def build_cli() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="A simple CLI for finding the meaning or translation of a word. ")
-    parser.add_argument("--words", help="a list of words separated by comma. Ex.: python,incredible")
+    parser.add_argument("--words", help="a list of words separated by spaces. Ex.: python incredible")
     return parser
 
 async def main():
     args = build_cli().parse_args()
+
+    if args.words is None:
+        print("Error: You should pass at the least one word, get some '--help'")
+        exit(1)
+
     words = args.words.strip().split()
 
     dictionary = Dictionary(words)
