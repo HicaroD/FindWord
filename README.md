@@ -1,5 +1,5 @@
 # FindWord
-A simple CLI for finding the translation or meaning of a word.
+A simple CLI for finding the meaning of a word.
 
 ## Summary
 - [Features](#features)
@@ -12,7 +12,6 @@ A simple CLI for finding the translation or meaning of a word.
 | Feature                                  | Progress           |
 |------------------------------------------|--------------------|
 | Get possible definitions for a word      | :heavy_check_mark: |
-| Get a possible definition for a sentence | :x:                |
 
 ## Installation
 Soon.
